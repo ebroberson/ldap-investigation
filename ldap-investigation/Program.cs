@@ -1,3 +1,4 @@
+using ldap_investigation;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Services.AddAuthorization(options =>
     options.FallbackPolicy = options.DefaultPolicy;
 });
 builder.Services.AddRazorPages();
+
+builder.Services.Configure<LdapConfig>(builder.Configuration.GetSection("Ldap"));
+builder.Services.AddScoped<IAuthenticationService, LdapAuthenticationService>();
 
 var app = builder.Build();
 
